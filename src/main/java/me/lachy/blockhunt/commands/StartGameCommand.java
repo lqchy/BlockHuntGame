@@ -29,7 +29,7 @@ public class StartGameCommand implements CommandExecutor {
             if (player.isOp() && areGroupsSet()) {
 
                 BlockHunt.blocksRunnable.runTaskTimer(plugin, 5 * 20, plugin.getConfig().getInt("roundTime") * 20L);
-                BlockHunt.winnerRunnable.runTaskTimer(plugin, 5 * 20, 10);
+                BlockHunt.winnerRunnable.runTaskTimer(plugin, 5 * 20, 0);
                 plugin.getConfig().set("gameStarted", true);
                 plugin.getConfig().set("group1wins", 0);
                 plugin.getConfig().set("group2wins", 0);

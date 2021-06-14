@@ -25,7 +25,7 @@ public class BlockWalkListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPlayerMove(PlayerMoveEvent event) {
+    public void onPlayerMove(PlayerMoveEvent event) throws InterruptedException {
 
         Location location = event.getPlayer().getLocation();
         Block block = new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()).getBlock();
@@ -36,9 +36,13 @@ public class BlockWalkListener implements Listener {
 
             if (group == 1 && block.getType().equals(material)) {
                 BHRunnableWinner.group1wins = true;
+                Thread.sleep(500);
+                BHRunnableWinner.group1wins = false;
             }
             else if (group == 2 && block.getType().equals(material)) {
                 BHRunnableWinner.group2wins = true;
+                Thread.sleep(500);
+                BHRunnableWinner.group2wins = false;
             }
 
         }
