@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -39,9 +40,14 @@ public class BHRunnableBlocks extends BukkitRunnable {
                 Material block = Material.valueOf(values.get((int) Math.floor(Math.random() * values.size())));
                 String name = block.name();
                 group1.set("block", name);
-                t1players.forEach(s -> Objects.requireNonNull(Bukkit.getPlayer(UUID.fromString(s))).sendMessage(ChatColor.GREEN + "Your block is "
-                        + ChatColor.GOLD + WordUtils.capitalizeFully(group1.getString("block").toLowerCase()
-                        .replace("_", " "))));
+                t1players.forEach(s -> {
+                    Player player = Bukkit.getPlayer(UUID.fromString(s));
+                    if (player != null) {
+                        player.sendMessage(ChatColor.GREEN + "Your block is "
+                                + ChatColor.GOLD + WordUtils.capitalizeFully(group2.getString("block").toLowerCase()
+                                .replace("_", " ")));
+                    }
+                });
                 blockHunt.saveConfig();
             }
 
@@ -51,9 +57,14 @@ public class BHRunnableBlocks extends BukkitRunnable {
                 Material block = Material.valueOf(values.get((int) Math.floor(Math.random() * values.size())));
                 String name = block.name();
                 group2.set("block", name);
-                t2players.forEach(s -> Objects.requireNonNull(Bukkit.getPlayer(UUID.fromString(s))).sendMessage(ChatColor.GREEN + "Your block is "
-                        + ChatColor.GOLD + WordUtils.capitalizeFully(group2.getString("block").toLowerCase()
-                        .replace("_", " "))));
+                t2players.forEach(s -> {
+                    Player player = Bukkit.getPlayer(UUID.fromString(s));
+                    if (player != null) {
+                        player.sendMessage(ChatColor.GREEN + "Your block is "
+                            + ChatColor.GOLD + WordUtils.capitalizeFully(group2.getString("block").toLowerCase()
+                            .replace("_", " ")));
+                    }
+                });
                 blockHunt.saveConfig();
             }
 
