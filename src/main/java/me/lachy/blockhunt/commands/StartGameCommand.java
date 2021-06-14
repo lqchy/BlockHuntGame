@@ -43,6 +43,7 @@ public class StartGameCommand implements CommandExecutor {
                             Bukkit.getOnlinePlayers().forEach(player1 ->
                                     player1.sendTitle(ChatColor.YELLOW + "Good luck!",
                                             "", 2, 40, 2));
+                            seconds--;
                         }
 
                         if (seconds > 0) {
