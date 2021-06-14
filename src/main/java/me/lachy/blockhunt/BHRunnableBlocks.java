@@ -57,6 +57,8 @@ public class BHRunnableBlocks extends BukkitRunnable {
                 blockHunt.saveConfig();
             }
 
+        } else {
+            cancel();
         }
 
     }

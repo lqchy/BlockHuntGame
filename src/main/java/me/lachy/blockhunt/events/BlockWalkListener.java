@@ -1,5 +1,6 @@
 package me.lachy.blockhunt.events;
 
+import me.lachy.blockhunt.BHRunnableWinner;
 import me.lachy.blockhunt.BlockHunt;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.util.List;
+import java.util.Objects;
 
 public class BlockWalkListener implements Listener {
 
@@ -28,13 +30,16 @@ public class BlockWalkListener implements Listener {
         Location location = event.getTo();
         if (location != null) {
             Block block = location.getBlock();
-            int team = getTeam(event.getPlayer());
+            int group = getGroup(event.getPlayer());
 
-            if (team == 1 || team == 2) {
-                Material material = getBlock(team);
+            if (group == 1 || group == 2) {
+                Material material = getBlock(group);
 
-                if (team == 1 && block.getType().equals(material)) {
-
+                if (group == 1 && block.getType().equals(material)) {
+                    BHRunnableWinner.group1wins = true;
+                }
+                else if (group == 2 && block.getType().equals(material)) {
+                    BHRunnableWinner.group2wins = true;
                 }
 
             }
@@ -43,12 +48,12 @@ public class BlockWalkListener implements Listener {
 
     }
 
-    private Material getBlock(int team) {
+    private Material getBlock(int group) {
         FileConfiguration config = plugin.getConfig();
-        return Material.valueOf(config.getConfigurationSection("group" + team).getString("block"));
+        return Material.valueOf(Objects.requireNonNull(config.getConfigurationSection("group" + group)).getString("block"));
     }
 
-    private int getTeam(Player player) {
+    private int getGroup(Player player) {
 
         FileConfiguration config = plugin.getConfig();
         ConfigurationSection group1 = config.getConfigurationSection("group1");

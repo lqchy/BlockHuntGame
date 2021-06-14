@@ -2,7 +2,7 @@ package me.lachy.blockhunt;
 
 import me.lachy.blockhunt.commands.GroupCommand;
 import me.lachy.blockhunt.commands.StartGameCommand;
-import me.lachy.blockhunt.commands.TestCommand;
+import me.lachy.blockhunt.commands.StopGameCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,21 +13,24 @@ import java.util.ArrayList;
 public final class BlockHunt extends JavaPlugin {
 
     private static BlockHunt instance;
-    public static BukkitRunnable runnable;
+    public static BukkitRunnable blocksRunnable;
+    public static BukkitRunnable winnerRunnable;
 
     @Override
     public void onEnable() {
 
         instance = this;
-        runnable = new BHRunnableBlocks(this);
+        blocksRunnable = new BHRunnableBlocks(this);
+        winnerRunnable = new BHRunnableWinner(this);
 
         saveConfig();
 
         new StartGameCommand(this);
         new GroupCommand(this);
-        new TestCommand(this);
+        new StopGameCommand(this);
 
         FileConfiguration config = getConfig();
+
         if (!config.isConfigurationSection("group1")) {
             ConfigurationSection group1 = config.createSection("group1");
             group1.set("players", new ArrayList<String>());
@@ -42,7 +45,6 @@ public final class BlockHunt extends JavaPlugin {
 
         config.set("roundTime", 300);
         config.set("gameStarted", false);
-
 
         saveConfig();
     }
