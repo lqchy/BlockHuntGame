@@ -1,0 +1,13 @@
+name: BlockHunt
+version: ${project.version}
+main: me.lachy.blockhunt.BlockHunt
+api-version: 1.17
+authors: [ lqchy_ ]
+description: Block Hunt!
+commands:
+  start:
+    description: Start the game!
+  group:
+    description: Join/leave a group!
+  test:
+    description: List blocks for testing.
