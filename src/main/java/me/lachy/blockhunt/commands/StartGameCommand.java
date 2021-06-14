@@ -1,12 +1,14 @@
 package me.lachy.blockhunt.commands;
 
 import me.lachy.blockhunt.BlockHunt;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +32,31 @@ public class StartGameCommand implements CommandExecutor {
 
                 BlockHunt.blocksRunnable.runTaskTimer(plugin, 5 * 20, plugin.getConfig().getInt("roundTime") * 20L);
                 BlockHunt.winnerRunnable.runTaskTimer(plugin, 5 * 20, 0);
+
+                new BukkitRunnable() {
+
+                    int seconds = 5;
+
+                    @Override
+                    public void run() {
+                        if (seconds == 0) {
+                            Bukkit.getOnlinePlayers().forEach(player1 ->
+                                    player1.sendTitle(ChatColor.YELLOW + "Good luck!",
+                                            "", 2, 40, 2));
+                        }
+
+                        if (seconds > 0) {
+
+                            Bukkit.getOnlinePlayers().forEach(player1 ->
+                                    player1.sendTitle(ChatColor.GREEN + "Game starts in " + seconds + " seconds!",
+                                    "", 2, 20, 2));
+
+                            seconds--;
+                        }
+                    }
+
+                }.runTaskTimer(plugin, 0, 20);
+
                 plugin.getConfig().set("gameStarted", true);
                 plugin.getConfig().set("group1wins", 0);
                 plugin.getConfig().set("group2wins", 0);

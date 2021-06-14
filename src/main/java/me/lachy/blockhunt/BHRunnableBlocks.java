@@ -44,7 +44,7 @@ public class BHRunnableBlocks extends BukkitRunnable {
                     Player player = Bukkit.getPlayer(UUID.fromString(s));
                     if (player != null) {
                         player.sendMessage(ChatColor.GREEN + "Your block is "
-                                + ChatColor.GOLD + WordUtils.capitalizeFully(group2.getString("block").toLowerCase()
+                                + ChatColor.GOLD + WordUtils.capitalizeFully(group1.getString("block").toLowerCase()
                                 .replace("_", " ")));
                     }
                 });
