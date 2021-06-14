@@ -3,6 +3,7 @@ package me.lachy.blockhunt;
 import me.lachy.blockhunt.commands.GroupCommand;
 import me.lachy.blockhunt.commands.StartGameCommand;
 import me.lachy.blockhunt.commands.StopGameCommand;
+import me.lachy.blockhunt.events.BlockWalkListener;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,6 +29,8 @@ public final class BlockHunt extends JavaPlugin {
         new StartGameCommand(this);
         new GroupCommand(this);
         new StopGameCommand(this);
+
+        getServer().getPluginManager().registerEvents(new BlockWalkListener(this), this);
 
         FileConfiguration config = getConfig();
 

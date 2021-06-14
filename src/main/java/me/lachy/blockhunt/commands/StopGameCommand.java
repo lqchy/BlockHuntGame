@@ -16,7 +16,7 @@ public class StopGameCommand implements CommandExecutor {
 
     public StopGameCommand(BlockHunt plugin) {
         this.plugin = plugin;
-        plugin.getCommand("test").setExecutor(this);
+        plugin.getCommand("stop").setExecutor(this);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class StopGameCommand implements CommandExecutor {
             if (player.isOp() && plugin.getConfig().getBoolean("gameStarted")) {
 
                 BlockHunt.blocksRunnable.cancel();
-                BlockHunt.blocksRunnable.cancel();
+                BlockHunt.winnerRunnable.cancel();
 
                 plugin.getConfig().set("gameStarted", false);
                 int group1wins = plugin.getConfig().getInt("group1wins");

@@ -21,10 +21,14 @@ public class BHRunnableWinner extends BukkitRunnable {
         if (!plugin.getConfig().getBoolean("gameStarted")) cancel();
 
         if (group1wins) {
+            int taskId = BlockHunt.blocksRunnable.getTaskId();
+            Bukkit.getScheduler().cancelTask(taskId);
             announce(1, true);
         }
 
         else if (group2wins) {
+            int taskId = BlockHunt.blocksRunnable.getTaskId();
+            Bukkit.getScheduler().cancelTask(taskId);
             announce(2, true);
         }
 
@@ -37,9 +41,8 @@ public class BHRunnableWinner extends BukkitRunnable {
                 group1wins = false;
                 BlockHunt.getInstance().getConfig().set("group1wins", BlockHunt.getInstance().getConfig().getInt("group1wins") + 1);
                 if (restart) {
-                    BlockHunt.blocksRunnable.cancel();
                     BlockHunt.blocksRunnable.runTaskTimer(BlockHunt.getInstance(),
-                            2 * 20, BlockHunt.getInstance().getConfig().getInt("roundTime") * 20L);
+                            0, BlockHunt.getInstance().getConfig().getInt("roundTime") * 20L);
                 }
                 break;
             case 2:
@@ -47,9 +50,8 @@ public class BHRunnableWinner extends BukkitRunnable {
                 group2wins = false;
                 BlockHunt.getInstance().getConfig().set("group2wins", BlockHunt.getInstance().getConfig().getInt("group2wins") + 1);
                 if (restart) {
-                    BlockHunt.blocksRunnable.cancel();
                     BlockHunt.blocksRunnable.runTaskTimer(BlockHunt.getInstance(),
-                            2 * 20, BlockHunt.getInstance().getConfig().getInt("roundTime") * 20L);
+                            0, BlockHunt.getInstance().getConfig().getInt("roundTime") * 20L);
                 }
                 break;
         }

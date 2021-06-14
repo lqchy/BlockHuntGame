@@ -27,21 +27,18 @@ public class BlockWalkListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerMove(PlayerMoveEvent event) {
 
-        Location location = event.getTo();
-        if (location != null) {
-            Block block = location.getBlock();
-            int group = getGroup(event.getPlayer());
+        Location location = event.getPlayer().getLocation();
+        Block block = new Location(location.getWorld(), location.getX(), location.getY() - 1, location.getZ()).getBlock();
+        int group = getGroup(event.getPlayer());
 
-            if (group == 1 || group == 2) {
-                Material material = getBlock(group);
+        if (group == 1 || group == 2) {
+            Material material = getBlock(group);
 
-                if (group == 1 && block.getType().equals(material)) {
-                    BHRunnableWinner.group1wins = true;
-                }
-                else if (group == 2 && block.getType().equals(material)) {
-                    BHRunnableWinner.group2wins = true;
-                }
-
+            if (group == 1 && block.getType().equals(material)) {
+                BHRunnableWinner.group1wins = true;
+            }
+            else if (group == 2 && block.getType().equals(material)) {
+                BHRunnableWinner.group2wins = true;
             }
 
         }
