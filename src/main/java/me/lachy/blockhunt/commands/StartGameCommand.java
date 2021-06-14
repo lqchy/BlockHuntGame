@@ -35,21 +35,21 @@ public class StartGameCommand implements CommandExecutor {
 
                 new BukkitRunnable() {
 
-                    int seconds = 5;
+                    int seconds = 6;
 
                     @Override
                     public void run() {
-                        if (seconds == 0) {
+                        if (seconds == 1) {
                             Bukkit.getOnlinePlayers().forEach(player1 ->
                                     player1.sendTitle(ChatColor.YELLOW + "Good luck!",
                                             "", 2, 40, 2));
                             seconds--;
                         }
 
-                        if (seconds > 0) {
+                        if (seconds > 1) {
 
                             Bukkit.getOnlinePlayers().forEach(player1 ->
-                                    player1.sendTitle(ChatColor.GREEN + "Game starts in " + seconds + " seconds!",
+                                    player1.sendTitle(ChatColor.GREEN + "Game starts in " + (seconds - 1) + " seconds!",
                                     "", 2, 20, 2));
 
                             seconds--;

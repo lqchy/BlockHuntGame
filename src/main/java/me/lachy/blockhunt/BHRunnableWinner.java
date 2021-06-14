@@ -40,10 +40,27 @@ public class BHRunnableWinner extends BukkitRunnable {
             announce(2, true);
         }
 
+        else {
+            int taskId = BlockHunt.blocksRunnable.getTaskId();
+            Bukkit.getScheduler().cancelTask(taskId);
+            announce(0, true);
+        }
+
     }
 
     public static void announce(int winningTeam, boolean restart) {
         switch (winningTeam) {
+            case 0:
+                group1wins = false;
+                Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.RED + "Nobody found their block! Restarting..");
+                if (restart) {
+                    BlockHunt.getInstance().getConfig().set("gameStarted", true);
+                    BlockHunt.getInstance().saveConfig();
+                    if (BlockHunt.blocksRunnable.isCancelled())
+                        BlockHunt.blocksRunnable = new BHRunnableBlocks(BlockHunt.getInstance());
+                    BlockHunt.blocksRunnable.runTaskTimer(BlockHunt.getInstance(), 0, 5*20*60);
+                }
+                break;
             case 1:
                 group1wins = false;
                 Bukkit.broadcastMessage(ChatColor.BOLD + "" + ChatColor.GOLD + "Group 1 won the round! Restarting..");
