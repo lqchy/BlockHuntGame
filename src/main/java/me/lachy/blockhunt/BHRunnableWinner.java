@@ -40,12 +40,6 @@ public class BHRunnableWinner extends BukkitRunnable {
             announce(2, true);
         }
 
-        else {
-            int taskId = BlockHunt.blocksRunnable.getTaskId();
-            Bukkit.getScheduler().cancelTask(taskId);
-            announce(0, true);
-        }
-
     }
 
     public static void announce(int winningTeam, boolean restart) {

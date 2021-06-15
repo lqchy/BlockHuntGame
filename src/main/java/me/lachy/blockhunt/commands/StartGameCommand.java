@@ -3,15 +3,18 @@ package me.lachy.blockhunt.commands;
 import me.lachy.blockhunt.BlockHunt;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public class StartGameCommand implements CommandExecutor {
 
@@ -43,6 +46,17 @@ public class StartGameCommand implements CommandExecutor {
                             Bukkit.getOnlinePlayers().forEach(player1 ->
                                     player1.sendTitle(ChatColor.YELLOW + "Good luck!",
                                             "", 2, 40, 2));
+
+                            ConfigurationSection group3 = plugin.getConfig().getConfigurationSection("group3");
+                            if (group3 != null) {
+                                for (String s : group3.getStringList("players")) {
+                                    Player p = Bukkit.getPlayer(UUID.fromString(s));
+                                    if (p != null) {
+                                        p.setGameMode(GameMode.SPECTATOR);
+                                    }
+                                }
+                            }
+
                             seconds--;
                         }
 

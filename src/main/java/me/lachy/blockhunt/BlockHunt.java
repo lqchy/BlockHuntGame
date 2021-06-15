@@ -46,6 +46,11 @@ public final class BlockHunt extends JavaPlugin {
             group2.set("block", null);
         }
 
+        if (!config.isConfigurationSection("group3")) {
+            ConfigurationSection group2 = config.createSection("group3");
+            group2.set("players", new ArrayList<String>());
+        }
+
         config.set("roundTime", 300);
         config.set("gameStarted", false);
 

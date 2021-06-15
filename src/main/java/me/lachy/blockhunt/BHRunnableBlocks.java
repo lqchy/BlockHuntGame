@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static me.lachy.blockhunt.BHRunnableWinner.announce;
+
 public class BHRunnableBlocks extends BukkitRunnable {
 
     private final BlockHunt blockHunt;
@@ -31,8 +33,12 @@ public class BHRunnableBlocks extends BukkitRunnable {
             ConfigurationSection group2 = blockHunt.getConfig().isConfigurationSection("group2")
                     ? blockHunt.getConfig().getConfigurationSection("group2") : null;
 
+            ConfigurationSection group3 = blockHunt.getConfig().isConfigurationSection("group3")
+                    ? blockHunt.getConfig().getConfigurationSection("group3") : null;
+
             List<String> t1players;
             List<String> t2players;
+            List<String> t3players;
 
             if (group1 != null) {
                 t1players = group1.getStringList("players");
@@ -67,6 +73,32 @@ public class BHRunnableBlocks extends BukkitRunnable {
                 });
                 blockHunt.saveConfig();
             }
+
+            if (group3 != null) {
+                t3players = group3.getStringList("players");
+                t3players.forEach(s -> {
+                    Player player = Bukkit.getPlayer(UUID.fromString(s));
+                    if (player != null) {
+                        if (group1 != null) {
+                            player.sendMessage(ChatColor.GREEN + "Group 1's block is "
+                                    + ChatColor.GOLD + WordUtils.capitalizeFully(group1.getString("block").toLowerCase()
+                                    .replace("_", " ")));
+                        }
+
+                        if (group2 != null) {
+                            player.sendMessage(ChatColor.GREEN + "Group 2's block is "
+                                    + ChatColor.GOLD + WordUtils.capitalizeFully(group2.getString("block").toLowerCase()
+                                    .replace("_", " ")));
+                        }
+                    }
+                });
+            }
+
+//            if (!BHRunnableWinner.group1wins && !BHRunnableWinner.group2wins) {
+//                int taskId = BlockHunt.blocksRunnable.getTaskId();
+//                Bukkit.getScheduler().cancelTask(taskId);
+//                announce(0, true);
+//            }
 
         } else {
             cancel();

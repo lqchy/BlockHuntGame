@@ -27,11 +27,20 @@ public class GroupCommand implements CommandExecutor, TabCompleter {
 
         if (args[0].equalsIgnoreCase("join")) {
 
-            if (!Double.isNaN(Double.parseDouble(args[1])) && Integer.parseInt(args[1]) <= 2) {
+            if (!Double.isNaN(Double.parseDouble(args[1])) && Integer.parseInt(args[1]) <= 3) {
 
                 boolean team = joinGroup((Player) sender, args[1]);
                 if (team) sender.sendMessage(ChatColor.GREEN + "Joined group " + Integer.parseInt(args[1]));
                 else sender.sendMessage("something went wrong");
+            } else {
+                sender.sendMessage(ChatColor.RED + "Invalid group number.");
+            }
+
+        } else if (args[0].equalsIgnoreCase("leave")) {
+            if (!Double.isNaN(Double.parseDouble(args[1])) && Integer.parseInt(args[1]) <= 3) {
+                boolean team = leaveGroup((Player) sender, args[1]);
+                if (team) sender.sendMessage(ChatColor.GREEN + "Joined group " + Integer.parseInt(args[1]));
+                else sender.sendMessage(ChatColor.RED + "Something went wrong.");
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid group number.");
             }
@@ -51,6 +60,28 @@ public class GroupCommand implements CommandExecutor, TabCompleter {
             players = section.getStringList("players");
             if (!players.contains(player.getUniqueId().toString())){
                 players.add(player.getUniqueId().toString());
+                section.set("players", players);
+                plugin.saveConfig();
+                success = true;
+            }
+        }
+
+        plugin.saveConfig();
+
+        return success;
+    }
+
+    private boolean leaveGroup(Player player, String group) {
+        FileConfiguration config = plugin.getConfig();
+        int groupNum = Integer.parseInt(group);
+
+        ConfigurationSection section = config.getConfigurationSection("group" + groupNum);
+        List<String> players;
+        boolean success = false;
+        if (section != null) {
+            players = section.getStringList("players");
+            if (players.contains(player.getUniqueId().toString())){
+                players.remove(player.getUniqueId().toString());
                 section.set("players", players);
                 plugin.saveConfig();
                 success = true;
